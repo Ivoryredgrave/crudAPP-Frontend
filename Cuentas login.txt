@@ -1,0 +1,9 @@
+Cuenta administrador:
+
+Usuario: admin
+Contraseña: 1234
+
+Cuenta usuario:
+
+Usuario: gabriela
+Contraseña: 1234

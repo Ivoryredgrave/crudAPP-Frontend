@@ -1,0 +1,10 @@
+.background-login {
+    background: linear-gradient(45deg, #37505c 40%, #613d3d 90%);
+    min-width: 100%;
+    min-height: 100%;
+    position: fixed;
+}
+
+.login {
+    border-radius: 20px;
+}

@@ -1,15 +1,27 @@
 {
-  "name": "myapp",
-  "version": "0.1.0",
+  "name": "crudapp-reactjs-frontend",
+  "version": "1.0.0",
   "private": true,
+  "author": "ivoryredgrave",
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "antd": "^4.19.3",
+    "axios": "^0.26.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.20",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
+    "react-csv": "^2.2.2",
     "react-dom": "^17.0.2",
+    "react-helmet-async": "^1.2.3",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.0",
-    "web-vitals": "^2.1.4"
+    "react-text-mask": "^5.4.3",
+    "sweetalert2": "^11.4.7",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",
