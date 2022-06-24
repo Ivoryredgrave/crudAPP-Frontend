@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-    Typography, Divider, Breadcrumb, Table, Button, Row, Col
+    Typography, Divider, Breadcrumb, Table, Button, Collapse
 } from 'antd';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { FilePdfOutlined } from "@ant-design/icons";
+import { FileOutlined } from "@ant-design/icons";
 import axios from "axios";
 import {
     backend_todosLosUsuarios, backend_UsuariosMasculinos,
@@ -23,6 +23,7 @@ import * as XLSX from 'xlsx';
 
 export const Reporte_usuarios = () => {
 
+    const { Panel } = Collapse;
     const { Title } = Typography;
     const [data, setData] = useState([]);
 
@@ -62,6 +63,14 @@ export const Reporte_usuarios = () => {
             title: 'Estado',
             key: 'estado',
             dataIndex: 'estado',
+            render(text, estado) {
+                return {
+                    props: {
+                        style: { background: (text) === "Activo" ? "#00991E" : "#F5AB56" }
+                    },
+                    children: <div>{text}</div>
+                };
+            },
         },
         {
             title: 'Nombre de usuario',
@@ -192,19 +201,19 @@ export const Reporte_usuarios = () => {
 
     };
 
-    const downloadExcel=()=>{
-        const newData=data.map(row=>{
-          delete row.tableData
-          return row
+    const downloadExcel = () => {
+        const newData = data.map(row => {
+            delete row.tableData
+            return row
         })
-        const workSheet=XLSX.utils.json_to_sheet(newData)
-        const workBook=XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(workBook,workSheet,"Usuarios")
+        const workSheet = XLSX.utils.json_to_sheet(newData)
+        const workBook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workBook, workSheet, "Usuarios")
         //Binary string
-        XLSX.write(workBook,{bookType:"xlsx",type:"binary"})
+        XLSX.write(workBook, { bookType: "xlsx", type: "binary" })
         //Download
-        XLSX.writeFile(workBook,"Reporte de usuarios - crudAPP.xlsx")
-      }
+        XLSX.writeFile(workBook, "Reporte de usuarios - crudAPP.xlsx")
+    }
 
     useEffect(() => {
         peticionGet();
@@ -227,73 +236,58 @@ export const Reporte_usuarios = () => {
 
                 <Divider />
 
-                <Title level={5}>Filtros:</Title>
+                <Collapse>
 
-                <Row gutter={16}>
-
-                    <Col span={6}>
-
-                        <Button type="primary" onClick={() => { peticionGet() }}>
-                            Mostrar todos
-                        </Button>
-
-                    </Col>
-
-                    <Col span={6}>
-
-                        <Button type="primary" onClick={() => { cargarUsuariosMasculinos() }}>
+                    <Panel header="Filtrar por género" key="2">
+                        <Button size="large" type="primary" onClick={() => { cargarUsuariosMasculinos() }}>
                             Masculino
                         </Button>
                         &nbsp;&nbsp;&nbsp;
-                        <Button type="primary" onClick={() => { cargarUsuariosFemeninos() }}>
+                        <Button size="large" type="primary" onClick={() => { cargarUsuariosFemeninos() }}>
                             Femenino
                         </Button>
+                    </Panel>
 
-                    </Col>
-
-                    <Col span={6}>
-
-                        <Button type="primary" onClick={() => { cargarUsuariosActivos() }}>
+                    <Panel header="Filtrar por estado" key="3">
+                        <Button size="large" type="primary" onClick={() => { cargarUsuariosActivos() }}>
                             Activo
                         </Button>
                         &nbsp;&nbsp;&nbsp;
-                        <Button type="primary" onClick={() => { cargarUsuariosInactivos() }}>
+                        <Button size="large" type="primary" onClick={() => { cargarUsuariosInactivos() }}>
                             Inactivo
                         </Button>
+                    </Panel>
 
-                    </Col>
-
-                    <Col span={6}>
-
-                        <Button type="primary" onClick={() => { cargarUsuariosAdmin() }}>
+                    <Panel header="Filtrar por tipo de usuario" key="4">
+                        <Button size="large" type="primary" onClick={() => { cargarUsuariosAdmin() }}>
                             Administrador
                         </Button>
                         &nbsp;&nbsp;&nbsp;
-                        <Button type="primary" onClick={() => { cargarUsuariosUser() }}>
+                        <Button size="large" type="primary" onClick={() => { cargarUsuariosUser() }}>
                             Usuario
                         </Button>
+                    </Panel>
+                </Collapse>
 
-                    </Col>
-
-                </Row>
-
-                <br />
-                <br />
+                <Divider />
 
                 <Title level={5}>
 
-                    <Button onClick={() => { downloadPdf(data) }}>
-                        <FilePdfOutlined />
+                    <Button size="large" type="primary" onClick={() => { peticionGet() }}>
+                        Mostrar todos
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button size="large" onClick={() => { downloadPdf(data) }}>
+                        <FileOutlined />
                         Exportar en PDF
                     </Button>
                     &nbsp;&nbsp;&nbsp;
-
-                    <Button>
-                        <CSVLink data={data} filename={"Reporte de usuarios - crudAPP"}>Exportar en CSV</CSVLink>
+                    <Button size="large">
+                        <CSVLink data={data} filename={"Reporte de usuarios - crudAPP"}><FileOutlined /> Exportar en CSV</CSVLink>
                     </Button>
                     &nbsp;&nbsp;&nbsp;
-                    <Button onClick={() => { downloadExcel() }}>
-                        <FilePdfOutlined />
+                    <Button size="large" onClick={() => { downloadExcel() }}>
+                        <FileOutlined />
                         Exportar en Excel
                     </Button>
 
@@ -304,7 +298,7 @@ export const Reporte_usuarios = () => {
                     scroll={{ x: 2000, y: 500 }}
                     dataSource={data}
                     pagination={{
-                        defaultPageSize: 10,
+                        defaultPageSize: 20,
                         pageSizeOptions: ['20', '40', '60', '80', '100'],
                         showSizeChanger: true,
                     }}

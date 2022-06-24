@@ -163,6 +163,14 @@ export const Usuarios = () => {
         {
             title: 'Estado',
             key: 'estado',
+            render(text, estado) {
+                return {
+                  props: {
+                    style: { background: (text) === "Activo" ? "#00991E" : "#F5AB56" }
+                  },
+                  children: <div>{text}</div>
+                };
+              },
             dataIndex: 'estado',
             filters: [
                 {
@@ -208,7 +216,7 @@ export const Usuarios = () => {
             fixed: 'right',
             render: (fila) => (
                 <Space size="middle" >
-                    <Button type="primary" onClick={() => seleccionarUsuario(fila)}>
+                    <Button size="large" type="primary" onClick={() => seleccionarUsuario(fila)}>
                         <EditOutlined />
                         Modificar
                     </Button>
@@ -342,7 +350,7 @@ export const Usuarios = () => {
 
                 <Divider />
 
-                <Button type="primary" onClick={abrirCerrarModalInsertar}>
+                <Button size="large" type="primary" onClick={abrirCerrarModalInsertar}>
                     <UserAddOutlined /> Añadir usuario
                 </Button>
 
@@ -352,8 +360,8 @@ export const Usuarios = () => {
                     centered
                     onCancel={abrirCerrarModalInsertar}
                     footer={[
-                        <Button type="primary" form="formulario-usuario" key="submit" htmlType="submit">Añadir</Button>,
-                        <Button onClick={abrirCerrarModalInsertar}>Cancelar</Button>
+                        <Button size="large" type="primary" form="formulario-usuario" key="submit" htmlType="submit">Añadir</Button>,
+                        <Button size="large" onClick={abrirCerrarModalInsertar}>Cancelar</Button>
                     ]}
                 >
 
@@ -517,8 +525,8 @@ export const Usuarios = () => {
                     centered
                     onCancel={abrirCerrarModalEditar}
                     footer={[
-                        <Button type="primary" form="formulario-usuario-editar" key="submit" htmlType="submit">Modificar</Button>,
-                        <Button onClick={abrirCerrarModalEditar}>Cancelar</Button>
+                        <Button size="large" type="primary" form="formulario-usuario-editar" key="submit" htmlType="submit">Modificar</Button>,
+                        <Button size="large" onClick={abrirCerrarModalEditar}>Cancelar</Button>
                     ]}
                 >
 
@@ -654,7 +662,7 @@ export const Usuarios = () => {
                     dataSource={data}
                     pagination={{
                         position: ["topRight"],
-                        defaultPageSize: 10,
+                        defaultPageSize: 20,
                         pageSizeOptions: ['20', '40', '60', '80', '100'],
                         showSizeChanger: true,
                     }}

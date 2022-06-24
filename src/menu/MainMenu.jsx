@@ -130,7 +130,7 @@ export const MainMenu = () => {
             {tipodeusuario === 'Administrador' && <Administrador />}
 
             <ItemGroup key="g2"
-              title={<Button onClick={cerrarSesion} danger ghost block>
+              title={<Button size="large" onClick={cerrarSesion} danger ghost block>
                 <LogoutOutlined /> Cerrar sesión
               </Button>} />
 
