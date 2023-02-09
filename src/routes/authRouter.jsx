@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import Login from "../login/login";
+import Login from "../views/login/login";
 
 const AuthRouter = () => {
     return (

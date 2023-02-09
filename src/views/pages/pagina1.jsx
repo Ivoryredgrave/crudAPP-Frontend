@@ -1,6 +1,7 @@
 import React from 'react';
-import { Typography, Divider, Breadcrumb } from 'antd';
+import { Typography, Divider } from 'antd';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { migajaDePan } from '../../components/components';
 
 export const pagina1 = () => {
 
@@ -16,10 +17,7 @@ export const pagina1 = () => {
 
                 <Title level={2}>Página 1</Title>
 
-                <Breadcrumb>
-                    <Breadcrumb.Item>Procesos</Breadcrumb.Item>
-                    <Breadcrumb.Item>Página 1</Breadcrumb.Item>
-                </Breadcrumb>
+                {migajaDePan("Procesos", "Página 1")}
 
                 <Divider />
 

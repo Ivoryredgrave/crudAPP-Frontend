@@ -7,14 +7,14 @@ import {
 } from "react-router-dom";
 
 import AuthRouter from "./authRouter";
-import { MainMenu } from "../menu/MainMenu";
+import { MainMenu } from "../routes/menuRouter";
 
-const AppRouter = () => {
+const AppRouter = () =>  {
     return (
         <BrowserRouter>
             <Switch>
                 <Route path="/auth" component={AuthRouter} />
-                <Route exact path="/menu" component={MainMenu} />
+                <Route exact path="/inicio" component={MainMenu} />
                 <Redirect to="/auth/login" />
             </Switch>
         </BrowserRouter>

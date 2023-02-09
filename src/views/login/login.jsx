@@ -7,8 +7,8 @@ import { UserOutlined, LockOutlined, LoginOutlined, LockFilled } from '@ant-desi
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import axios from "axios";
 import Swal from "sweetalert2";
-import { getUserId } from "../utils/sessionUtils";
-import { backend_loginusuarios } from "../local";
+import { getUserId } from "../../utils/sessionUtils";
+import { backend_loginusuarios } from "../../API/httpRequests";
 
 export default function Login(props) {
 
@@ -52,19 +52,19 @@ export default function Login(props) {
           props.history.push("/inicio");
 
         } else {
-          Swal.fire("Error", "Usuario y/o contraseña incorrectos", "error");
+          Swal.fire("Error", "Usuario y/o contraseña incorrectos.", "error");
         }
 
       })
       .catch((error) => {
         console.log(error);
-        Swal.fire("Error", "Error al iniciar sesión", "error");
+        Swal.fire("¡Ups! Algo ha salido mal", "Lo sentimos, en este momento no podemos procesar su solicitud debido a un problema técnico en nuestro servidor. Por favor, póngase en contacto con nuestro equipo de soporte para obtener ayuda.", "error");
       });
   };
 
   useEffect(() => {
     if (getUserId()) {
-      props.history.push("/menu");
+      props.history.push("/inicio");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -84,9 +84,8 @@ export default function Login(props) {
             <Card justify="center" align="middle" bordered={true} className="login">
 
               <Avatar style={{ backgroundColor: '#87d068' }} size={64}><LockFilled /></Avatar>
-              <br />
-              <br />
               <Title level={2}>Iniciar sesión</Title>
+
               <Divider />
 
               <Form name="formulario-login"
@@ -115,7 +114,7 @@ export default function Login(props) {
                   <Input
                     onChange={handleChange}
                     name="nombreusuario"
-                    showCount maxLength={45}
+                    //showCount maxLength={45}
                     prefix={<UserOutlined />} />
                 </Form.Item>
 
@@ -132,7 +131,7 @@ export default function Login(props) {
                   <Input.Password
                     onChange={handleChange}
                     name="contrasena"
-                    showCount maxLength={100}
+                    //showCount maxLength={100}
                     prefix={<LockOutlined />}
                     type="password"
                   />
@@ -142,13 +141,15 @@ export default function Login(props) {
                   offset: 8,
                   span: 16,
                 }}>
-                  <Button type="primary" htmlType="submit">
+                  <Button size='large' type="primary" htmlType="submit">
                     <LoginOutlined /> Acceder
                   </Button>
                 </Form.Item>
 
               </Form>
-              <br />
+
+              <Divider />
+            
               <Text> crudAPP™ {new Date().getFullYear()}</Text>
 
             </Card>

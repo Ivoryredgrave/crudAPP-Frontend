@@ -1,7 +1,5 @@
 @import 'antd/dist/antd.css';
 @import 'components/login.css';
 @import 'components/menu.css';
-
-* {
-    font-family: Helvetica, Arial, sans-serif;
-}
+@import 'components/table.css';
+@import 'components/inicio.css';

@@ -7,7 +7,7 @@ import {
     UltimoUsuarioRegistrado,
     UsuariosEstado,
     UsuariosGenero
-} from '../../components/chartUsuarios';
+} from '../../API/apiUsuarios';
 
 export const Dashboard = () => {
 
@@ -22,16 +22,12 @@ export const Dashboard = () => {
                 </Helmet>
 
                 <Title level={2}>Dashboard</Title>
-                <Title level={4}>
-                    Hola {sessionStorage.getItem("nombrecompleto") ||
-                        localStorage.getItem("nombrecompleto")}, bienvenido de nuevo
-                </Title>
 
                 <Divider />
 
                 <Row >
                     <Col align="middle" span={12}>
-                        <Card title={<Title level={4}>Total de usuarios</Title>}
+                    <Card title={<Title level={4}>Total de usuarios</Title>}
                             style={{ backgroundColor: '#4BA6FE' }}>
                             <TotalDeUsuarios />
                         </Card>
@@ -39,21 +35,21 @@ export const Dashboard = () => {
 
                     <Col align="middle" span={12}>
                         <Card title={<Title level={4}>Último usuario registrado</Title>}
-                            style={{ backgroundColor: '#FF838A' }}>
+                            style={{ backgroundColor: '#4BA6FE' }}>
                             <UltimoUsuarioRegistrado />
                         </Card>
                     </Col>
 
                     <Col align="middle" span={12}>
                         <Card title={<Title level={4}>Usuarios por estado</Title>}
-                            style={{ backgroundColor: '#c383ff' }}>
+                            style={{ backgroundColor: '#4BA6FE' }}>
                             <UsuariosEstado />
                         </Card>
                     </Col>
 
                     <Col align="middle" span={12}>
                         <Card title={<Title level={4}>Usuarios por género</Title>}
-                            style={{ backgroundColor: '#ffc183' }}>
+                            style={{ backgroundColor: '#4BA6FE' }}>
                                 <UsuariosGenero />
                         </Card>
                     </Col>

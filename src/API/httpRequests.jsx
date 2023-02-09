@@ -17,13 +17,11 @@ const backend_todosLosUsuarios = `http://${hostname}:${port}/api/usuarios/todos_
 // Petición POST y PUT Usuarios
 const backend_usuarios = `http://${hostname}:${port}/api/usuarios`;
 
-// Reportes Usuarios - filtros
+// Reportes de Usuarios - filtros
 const backend_UsuariosMasculinos = `http://${hostname}:${port}/api/usuarios/todos_los_usuarios_masculinos`;
 const backend_UsuariosFemeninos = `http://${hostname}:${port}/api/usuarios/todos_los_usuarios_femeninos`;
-
 const backend_UsuariosActivos = `http://${hostname}:${port}/api/usuarios/todos_los_usuarios_activos`;
 const backend_UsuariosInactivos = `http://${hostname}:${port}/api/usuarios/todos_los_usuarios_inactivos`;
-
 const backend_UsuariosAdmin = `http://${hostname}:${port}/api/usuarios/todos_los_usuarios_administrador`;
 const backend_UsuariosUser = `http://${hostname}:${port}/api/usuarios/todos_los_usuarios_usuario`;
 

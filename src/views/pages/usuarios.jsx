@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import {
-    Typography, Divider, Breadcrumb, Table,
-    Space, Button, Input, Modal, Form, Radio,
+    Typography, Divider,
+    Space, Button, Input, Modal, Form, Radio
 } from 'antd';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { backend_todosLosUsuarios, backend_usuarios } from "../../local";
+import { backend_usuarios } from "../../API/httpRequests";
 import { UserAddOutlined, EditOutlined } from '@ant-design/icons';
 import MaskedInput from 'react-text-mask';
+import { peticionGet } from "../../API/apiUsuarios";
+import { migajaDePan, eliminarPropiedadesVacias, TablaAntDesign } from "../../components/components";
 
 export const Usuarios = () => {
 
@@ -33,9 +35,6 @@ export const Usuarios = () => {
         fecha_actualizacion: "",
         tipodeusuario: "",
     });
-
-    const deleteEmptyProperties = (obj) =>
-        Object.fromEntries(Object.entries(obj).filter(([_, v]) => v?.toString().length > 0));
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -93,37 +92,40 @@ export const Usuarios = () => {
             }) => {
                 return (
                     <div style={{ display: "flex", flex: 1, justifyContent: "center", padding: 8 }}>
-                        <Input
-                            autoFocus
-                            placeholder="Buscar por nombre"
-                            value={selectedKeys[0]}
-                            onChange={(e) => {
-                                setSelectedKeys(e.target.value ? [e.target.value] : []);
-                                confirm({ closeDropdown: false });
-                            }}
-                            onPressEnter={() => {
-                                confirm();
-                            }}
-                            onBlur={() => {
-                                confirm();
-                            }}
-                        ></Input>
-                        <Button
-                            onClick={() => {
-                                confirm();
-                            }}
-                            type="primary"
-                        >
-                            Buscar
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                clearFilters();
-                            }}
-                            type="danger"
-                        >
-                            Reiniciar
-                        </Button>
+                        <Space>
+
+                            <Input
+                                autoFocus
+                                placeholder="Buscar por nombre"
+                                value={selectedKeys[0]}
+                                onChange={(e) => {
+                                    setSelectedKeys(e.target.value ? [e.target.value] : []);
+                                    confirm({ closeDropdown: false });
+                                }}
+                                onPressEnter={() => {
+                                    confirm();
+                                }}
+                                onBlur={() => {
+                                    confirm();
+                                }}
+                            ></Input>
+                            <Button
+                                onClick={() => {
+                                    confirm();
+                                }}
+                                type="primary"
+                            >
+                                Buscar
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    clearFilters();
+                                }}
+                                type="danger"
+                            >
+                                Reiniciar
+                            </Button>
+                        </Space>
                     </div>
                 );
             },
@@ -163,26 +165,16 @@ export const Usuarios = () => {
         {
             title: 'Estado',
             key: 'estado',
-            render(text, estado) {
-                return {
-                  props: {
-                    style: { background: (text) === "Activo" ? "#00991E" : "#F5AB56" }
-                  },
-                  children: <div>{text}</div>
-                };
-              },
             dataIndex: 'estado',
             filters: [
-                {
-                    text: 'Activo',
-                    value: 'Activo',
-                },
-                {
-                    text: 'Inactivo',
-                    value: 'Inactivo',
-                },
+                { text: 'Activo', value: 'Activo' },
+                { text: 'Inactivo', value: 'Inactivo' },
             ],
             onFilter: (value, record) => record.estado.indexOf(value) === 0,
+            render: text => {
+                let color = text === 'Activo' ? '#1dc43e' : '#F5AB56';
+                return <div className="cell" style={{ background: color }}>{text}</div>;
+            },
         },
         {
             title: 'Nombre de usuario',
@@ -225,18 +217,6 @@ export const Usuarios = () => {
         },
     ];
 
-    const peticionGet = async () => {
-        await axios
-            .get(backend_todosLosUsuarios)
-            .then((response) => {
-                setData(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-                Swal.fire("Error", "Error al obtener la lista de usuarios", "error");
-            });
-    };
-
     const peticionPut = async () => {
         const {
             nombrecompleto,
@@ -262,7 +242,7 @@ export const Usuarios = () => {
         };
 
         if (usuarioSeleccionado?.contrasena !== usuarioSeleccionado['repeat-password']) {
-            Swal.fire("Contraseñas no coinciden", "Las contraseñas ingresadas NO son iguales, por favor revise e intente nuevamente", "error");
+            Swal.fire("Contraseñas no coinciden", "Las contraseñas ingresadas NO son iguales, por favor revise e intente nuevamente.", "error");
             return;
         } else {
             delete usuarioSeleccionado['repeat-password']
@@ -270,27 +250,30 @@ export const Usuarios = () => {
 
         await axios
             .put(backend_usuarios + "/" + usuarioSeleccionado?.idusuario, {
-                user: deleteEmptyProperties(userForUpdate),
+                user: eliminarPropiedadesVacias(userForUpdate),
             })
             .then((response) => {
                 if (response.data.rowsInserted > 0) {
-                    Swal.fire("Registro actualizado", "Se ha actualizado el registro", "success");
-                    peticionGet();
+                    Swal.fire("Registro actualizado", "Se ha actualizado el registro.", "success");
+                    peticionGet(setData);
                     abrirCerrarModalEditar();
                 } else {
-                    Swal.fire("Error al actualizar", "Ha ocurrido un error al actualizar el registro", "error");
+                    console.log(response);
+                    Swal.fire("Error al actualizar el registro", "Ha ocurrido un error al actualizar el registro.", "error");
+                    abrirCerrarModalEditar();
                 }
             })
             .catch((error) => {
                 console.log(error);
-                Swal.fire("Error al actualizar", "Ha ocurrido un error al actualizar el registro", "error");
+                Swal.fire("¡Ups! Algo ha salido mal", "Lo sentimos, en este momento no podemos procesar su solicitud debido a un problema técnico en nuestro servidor. Por favor, póngase en contacto con nuestro equipo de soporte para obtener ayuda.", "error");
+                abrirCerrarModalEditar();
             });
     };
 
     const peticionPost = async () => {
 
         if (usuarioSeleccionado?.contrasena !== usuarioSeleccionado['repeat-password']) {
-            Swal.fire("Contraseñas no coinciden", "Las contraseñas ingresadas NO son iguales, por favor revise e intente nuevamente", "error");
+            Swal.fire("Contraseñas no coinciden", "Las contraseñas ingresadas NO son iguales, por favor revise e intente nuevamente.", "error");
             return;
         } else {
             delete usuarioSeleccionado['repeat-password']
@@ -305,32 +288,34 @@ export const Usuarios = () => {
 
         await axios
             .post(backend_usuarios, {
-                newUser: deleteEmptyProperties(usuarioSeleccionado),
+                newUser: eliminarPropiedadesVacias(usuarioSeleccionado),
             })
             .then((response) => {
                 const data = response?.data;
                 if (data.code === "ER_DUP_ENTRY") {
-                    Swal.fire("Nombre duplicado", "Este registro ya existe", "error");
+                    Swal.fire("Usuario duplicado", "Este registro ya existe.", "error");
                     return;
                 }
 
                 if (data.rowsInserted > 0) {
-                    Swal.fire("Éxito al guardar", "Se ha creado el nuevo registro", 'success');
-                    peticionGet();
+                    Swal.fire("Éxito al guardar", "Se ha creado el nuevo registro.", 'success');
+                    peticionGet(setData);
                     abrirCerrarModalInsertar();
                 } else {
                     console.log(response);
-                    Swal.fire("Error al guardar", "Ha ocurrido un error al crear el nuevo registro", "error");
+                    Swal.fire("Error al guardar el registro", "Ha ocurrido un error al crear el nuevo registro.", "error");
+                    abrirCerrarModalInsertar();
                 }
             })
             .catch((error) => {
                 console.log(error);
-                Swal.fire("Error al guardar", "Ha ocurrido un error al crear el nuevo registro", "error");
+                Swal.fire("¡Ups! Algo ha salido mal", "Lo sentimos, en este momento no podemos procesar su solicitud debido a un problema técnico en nuestro servidor. Por favor, póngase en contacto con nuestro equipo de soporte para obtener ayuda.", "error");
+                abrirCerrarModalInsertar();
             });
     };
 
     useEffect(() => {
-        peticionGet();
+        peticionGet(setData);
     }, []);
 
     return (
@@ -343,10 +328,7 @@ export const Usuarios = () => {
 
                 <Title level={2}>Usuarios registrados</Title>
 
-                <Breadcrumb>
-                    <Breadcrumb.Item>Parámetros</Breadcrumb.Item>
-                    <Breadcrumb.Item>Usuarios</Breadcrumb.Item>
-                </Breadcrumb>
+                {migajaDePan("Parámetros", "Usuarios")}
 
                 <Divider />
 
@@ -361,7 +343,7 @@ export const Usuarios = () => {
                     onCancel={abrirCerrarModalInsertar}
                     footer={[
                         <Button size="large" type="primary" form="formulario-usuario" key="submit" htmlType="submit">Añadir</Button>,
-                        <Button size="large" onClick={abrirCerrarModalInsertar}>Cancelar</Button>
+                        <Button key="cancelar" size="large" onClick={abrirCerrarModalInsertar}>Cancelar</Button>
                     ]}
                 >
 
@@ -502,17 +484,13 @@ export const Usuarios = () => {
                                 {
                                     required: true,
                                     message: '¡Este campo es requerido!',
-                                },
-                            ]}
-                        >
-
+                                }]}>
                             <Radio.Group
                                 name="genero"
                                 onChange={handleChange}>
                                 <Radio value="Masculino">Masculino</Radio>
                                 <Radio value="Femenino">Femenino</Radio>
                             </Radio.Group>
-
                         </Form.Item>
 
                     </Form>
@@ -526,7 +504,7 @@ export const Usuarios = () => {
                     onCancel={abrirCerrarModalEditar}
                     footer={[
                         <Button size="large" type="primary" form="formulario-usuario-editar" key="submit" htmlType="submit">Modificar</Button>,
-                        <Button size="large" onClick={abrirCerrarModalEditar}>Cancelar</Button>
+                        <Button key="cancelar" size="large" onClick={abrirCerrarModalEditar}>Cancelar</Button>
                     ]}
                 >
 
@@ -656,20 +634,10 @@ export const Usuarios = () => {
 
                 </Modal>
 
-                <Table
-                    columns={columns}
-                    scroll={{ x: 2000, y: 500 }}
-                    dataSource={data}
-                    pagination={{
-                        position: ["topRight"],
-                        defaultPageSize: 20,
-                        pageSizeOptions: ['20', '40', '60', '80', '100'],
-                        showSizeChanger: true,
-                    }}
-                    bordered
-                    rowKey={'idusuario'}
-                    loading={false}
-                />
+                <br />
+                <br />
+                
+                {TablaAntDesign(columns,data,handleChange,"idusuario")}
 
             </HelmetProvider>
         </div>
