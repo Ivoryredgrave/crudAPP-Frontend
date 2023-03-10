@@ -611,6 +611,26 @@ export const Usuarios = () => {
                         </Item>
 
                         <Item
+                            label="Estado"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '¡Este campo es requerido!',
+                                },
+                            ]}
+                        >
+
+                            <Radio.Group
+                                name="estado"
+                                onChange={handleChange}
+                                value={usuarioSeleccionado && usuarioSeleccionado.estado}>
+                                <Radio value="Activo">Activo</Radio>
+                                <Radio value="Inactivo">Inactivo</Radio>
+                            </Radio.Group>
+
+                        </Item>
+
+                        <Item
                             label="Genero"
                             rules={[
                                 {
@@ -636,8 +656,8 @@ export const Usuarios = () => {
 
                 <br />
                 <br />
-                
-                {TablaAntDesign(columns,data,handleChange,"idusuario")}
+
+                {TablaAntDesign(columns, data, handleChange, "idusuario")}
 
             </HelmetProvider>
         </div>
