@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { backend_usuarios } from "../../API/httpRequests";
 import { UserAddOutlined, EditOutlined } from '@ant-design/icons';
 import MaskedInput from 'react-text-mask';
-import { peticionGet } from "../../API/apiUsuarios";
+import { peticionGetUsuarios } from "../../API/apiUsuarios";
 import { migajaDePan, eliminarPropiedadesVacias, TablaAntDesign } from "../../components/components";
 
 export const Usuarios = () => {
@@ -255,7 +255,7 @@ export const Usuarios = () => {
             .then((response) => {
                 if (response.data.rowsInserted > 0) {
                     Swal.fire("Registro actualizado", "Se ha actualizado el registro.", "success");
-                    peticionGet(setData);
+                    peticionGetUsuarios(setData);
                     abrirCerrarModalEditar();
                 } else {
                     console.log(response);
@@ -299,7 +299,7 @@ export const Usuarios = () => {
 
                 if (data.rowsInserted > 0) {
                     Swal.fire("Éxito al guardar", "Se ha creado el nuevo registro.", 'success');
-                    peticionGet(setData);
+                    peticionGetUsuarios(setData);
                     abrirCerrarModalInsertar();
                 } else {
                     console.log(response);
@@ -315,7 +315,7 @@ export const Usuarios = () => {
     };
 
     useEffect(() => {
-        peticionGet(setData);
+        peticionGetUsuarios(setData);
     }, []);
 
     return (

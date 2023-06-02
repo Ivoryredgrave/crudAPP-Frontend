@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, Divider, Button, Space, Popover, Input } from 'antd';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { FileOutlined, PrinterOutlined, SearchOutlined } from "@ant-design/icons";
-import { peticionGet } from "../../API/apiUsuarios";
+import { peticionGetUsuarios } from "../../API/apiUsuarios";
 import { TablaAntDesign, migajaDePan, descargarExcel, descargarPDF } from "../../components/components";
 import 'jspdf-autotable';
 import "moment/locale/es-do";
@@ -177,7 +177,7 @@ export const Reporte_usuarios = () => {
     );
 
     useEffect(() => {
-        peticionGet(setData);
+        peticionGetUsuarios(setData);
     }, []);
 
     return (

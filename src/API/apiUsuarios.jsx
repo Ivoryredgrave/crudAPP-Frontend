@@ -5,88 +5,16 @@ import {
   backend_totaldeusuarios,
   backend_UsuariosEstado,
   backend_UsuariosGenero,
-  backend_todosLosUsuarios,
-  backend_UsuariosMasculinos,
-  backend_UsuariosFemeninos,
-  backend_UsuariosActivos,
-  backend_UsuariosInactivos,
-  backend_UsuariosAdmin,
-  backend_UsuariosUser
+  backend_todosLosUsuarios
 } from "../API/httpRequests";
 import { Typography, Spin } from 'antd';
 import axios from "axios";
 
 const { Title } = Typography;
 
-export const peticionGet = async (setData) => {
+export const peticionGetUsuarios = async (setData) => {
   await axios
     .get(backend_todosLosUsuarios)
-    .then((response) => {
-      setData(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-export const cargarUsuariosMasculinos = async (setData) => {
-  await axios
-    .get(backend_UsuariosMasculinos)
-    .then((response) => {
-      setData(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-export const cargarUsuariosFemeninos = async (setData) => {
-  await axios
-    .get(backend_UsuariosFemeninos)
-    .then((response) => {
-      setData(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-export const cargarUsuariosActivos = async (setData) => {
-  await axios
-    .get(backend_UsuariosActivos)
-    .then((response) => {
-      setData(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-export const cargarUsuariosInactivos = async (setData) => {
-  await axios
-    .get(backend_UsuariosInactivos)
-    .then((response) => {
-      setData(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-export const cargarUsuariosAdmin = async (setData) => {
-  await axios
-    .get(backend_UsuariosAdmin)
-    .then((response) => {
-      setData(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-export const cargarUsuariosUser = async (setData) => {
-  await axios
-    .get(backend_UsuariosUser)
     .then((response) => {
       setData(response.data);
     })
