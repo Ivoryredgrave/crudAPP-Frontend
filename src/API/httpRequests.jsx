@@ -18,11 +18,11 @@ const backend_todosLosUsuarios = `http://${hostname}:${port}/api/usuarios/todos_
 const backend_usuarios = `http://${hostname}:${port}/api/usuarios`;
 
 export {
-    backend_loginusuarios,
-    backend_totaldeusuarios,
-    backend_ultimousuario,
-    backend_todosLosUsuarios,
-    backend_usuarios,
-    backend_UsuariosEstado,
-    backend_UsuariosGenero
-}
+  backend_loginusuarios,
+  backend_totaldeusuarios,
+  backend_ultimousuario,
+  backend_todosLosUsuarios,
+  backend_usuarios,
+  backend_UsuariosEstado,
+  backend_UsuariosGenero,
+};

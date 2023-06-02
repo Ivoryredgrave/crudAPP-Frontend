@@ -5,7 +5,7 @@ const tipoUsuario = () =>
   sessionStorage.getItem("tipodeusuario") ||
   localStorage.getItem("tipodeusuario");
 
-  const nombreUsuario = () =>
+const nombreUsuario = () =>
   sessionStorage.getItem("nombrecompleto") ||
   localStorage.getItem("nombrecompleto");
 

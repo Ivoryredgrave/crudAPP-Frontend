@@ -1,62 +1,65 @@
-import React from 'react';
-import { Typography, Divider, Col, Row, Card } from 'antd';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import React from "react";
+import { Typography, Divider, Col, Row, Card } from "antd";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import {
-    TotalDeUsuarios,
-    UltimoUsuarioRegistrado,
-    UsuariosEstado,
-    UsuariosGenero
-} from '../../API/apiUsuarios';
+  TotalDeUsuarios,
+  UltimoUsuarioRegistrado,
+} from "../../API/apiUsuarios";
+import { UsuariosEstadoPie, UsuariosGeneroPie } from "../../components/charts";
 
 export const Dashboard = () => {
+  const { Title } = Typography;
 
-    const { Title } = Typography;
+  return (
+    <div>
+      <HelmetProvider>
+        <Helmet>
+          <title>Dashboard | crudAPP™</title>
+        </Helmet>
 
-    return (
-        <div>
-            <HelmetProvider>
+        <Title level={2}>Dashboard</Title>
 
-                <Helmet>
-                    <title>Dashboard | crudAPP™</title>
-                </Helmet>
+        <Divider />
 
-                <Title level={2}>Dashboard</Title>
+        <Row>
+          <Col align="middle" span={12}>
+            <Card
+              title={<Title level={4}>Total de usuarios</Title>}
+              style={{ backgroundColor: "#4BA6FE" }}
+            >
+              <TotalDeUsuarios />
+            </Card>
+          </Col>
 
-                <Divider />
+          <Col align="middle" span={12}>
+            <Card
+              title={<Title level={4}>Último usuario registrado</Title>}
+              style={{ backgroundColor: "#4BA6FE" }}
+            >
+              <UltimoUsuarioRegistrado />
+            </Card>
+          </Col>
 
-                <Row >
-                    <Col align="middle" span={12}>
-                    <Card title={<Title level={4}>Total de usuarios</Title>}
-                            style={{ backgroundColor: '#4BA6FE' }}>
-                            <TotalDeUsuarios />
-                        </Card>
-                    </Col>
+          <Col align="middle" span={12}>
+            <Card
+              title={<Title level={4}>Usuarios por estado</Title>}
+              style={{ backgroundColor: "#4BA6FE" }}
+            >
+              <UsuariosEstadoPie />
+            </Card>
+          </Col>
 
-                    <Col align="middle" span={12}>
-                        <Card title={<Title level={4}>Último usuario registrado</Title>}
-                            style={{ backgroundColor: '#4BA6FE' }}>
-                            <UltimoUsuarioRegistrado />
-                        </Card>
-                    </Col>
-
-                    <Col align="middle" span={12}>
-                        <Card title={<Title level={4}>Usuarios por estado</Title>}
-                            style={{ backgroundColor: '#4BA6FE' }}>
-                            <UsuariosEstado />
-                        </Card>
-                    </Col>
-
-                    <Col align="middle" span={12}>
-                        <Card title={<Title level={4}>Usuarios por género</Title>}
-                            style={{ backgroundColor: '#4BA6FE' }}>
-                                <UsuariosGenero />
-                        </Card>
-                    </Col>
-
-                </Row>
-
-            </HelmetProvider>
-        </div>
-    )
-}
+          <Col align="middle" span={12}>
+            <Card
+              title={<Title level={4}>Usuarios por género</Title>}
+              style={{ backgroundColor: "#4BA6FE" }}
+            >
+              <UsuariosGeneroPie />
+            </Card>
+          </Col>
+        </Row>
+      </HelmetProvider>
+    </div>
+  );
+};
